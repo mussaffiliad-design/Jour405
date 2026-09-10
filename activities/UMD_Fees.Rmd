@@ -33,7 +33,7 @@ umd_fees_pct <- umd_fees |> mutate(pct_change = (`Fall 2026`- `Fall 2021`)/`Fall
 
 Write a few sentences about what you found in those percentages. What's the story here? What questions do you have?
 
-What I am most intrigued by is the student counseling service, student sustainability, and the shuttle service. The shuttle service and counseling are special cases, but I do have curiosity in why the counseling service skyrocketed from 0 to 52. Is UMD student body having a health crisis or is it preventative? I definitely think there's a story there. A 58% increase in shuttle services is also quite large, and from what I've heard, it's not because it became luxury and convenient all of a sudden. Considering no one I know takes the shuttle because we all live off campus, it's a big fee to pay for not a ubiquitous use. 
+What I am most intrigued by is the student counseling service, student sustainability, and the shuttle service. The shuttle service and counseling are special cases, but I do have curiosity in why the counseling service skyrocketed from 0 to 52. Is UMD student body having a health crisis or is it preventative? I definitely think there's a story there. A 58% increase in shuttle services is also quite large, and from what I've heard, it's not because it became luxury and convenient all of a sudden. Considering no one I know takes the shuttle because we all live off campus, it's a big fee to pay for not a ubiquitous use. Also, I am curious why athlethic fee has stayed the very specific amount of 399. 
 
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
