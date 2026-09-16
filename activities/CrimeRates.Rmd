@@ -8,7 +8,7 @@ Follow along with the demo to learn how to calculate crime rates using R and the
 
 ```{r}
 library(tidyverse)
-install.packages("janitor")
+#install.packages("janitor")
 library(janitor)
 ```
 
@@ -48,7 +48,7 @@ crimes_with_rates <- crimes |> mutate(violent_rate = violent_crime_total/populat
 
 Write a few sentences about what you found in the data. What years had the highest crime rates? What years had the lowest crime rates? Does the pattern match your expectations? What might explain some of the results you found?
 
-
+After looking at the data, 1992 was the most violent time for Maryland. It makes sense because of the election around 1991 and 1992 and the crackdown on crack cocaine. This when states came up with three strikes your out policy where you can get life in prison. The lowest is 2020 and then the 20210s. These make sense because no one was outside during 2020 and the 10s were right after the finacial crisis ended. 
 
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
