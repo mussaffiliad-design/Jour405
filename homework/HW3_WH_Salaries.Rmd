@@ -58,7 +58,5 @@ Write a couple of sentences describing the results of your analysis. What do the
 The mean salary is about $112,703 and the median is $109,243. Since they are close together, it suggests the data is not widely skewed. The 0s are the clear outliers. 
 
 ### Task 7: Story Idea
-
 Based on the data, what is your best story idea? What is the next step you would take to develop that story idea?
-
 Several high profile White House advisors, including Steven Witkoff, are serving without pay. I'd be curious to learn more why they aren't drawing a salary and the ethics behind free labor. My next step would be cross referencing the $0-salary staffers and detailees against public financial disclosure filings.

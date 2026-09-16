@@ -39,7 +39,7 @@ team_aces |> mutate(percentile = ntile(total_aces, 100))
 
 Write a couple of sentences that puts Maryland into context with the other teams in the dataset. You can do some Internet research to help with this.
 
-
+They are at 96th percentile nationally. This means Maryland's serving performance in aces outpaced roughly 95% of teams in the country, placing them firmly among the sport's elite servers rather than just above average. They are brought down from how poorly they performed in 2024. This is a reminder that a single statistical category doesn't fully explain overall team performance, especially in the Big Ten.
 
 When you are done, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
 
