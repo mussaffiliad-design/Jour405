@@ -66,3 +66,20 @@ The decline shows that while the pandemic caused devastation in other ways, it r
 ### Task 9: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
+
+#### Task 10: take the violent crime rates for 2020 and do three things
+
+```{r}
+md_cities_percentiles <- md_cities_rates |> 
+  mutate(percentile = ntile(violent_rate_2020, 100))
+```
+
+```{r}
+md_cities_percentiles |> filter(percentile > 90)
+```
+
+```{r}
+md_cities_rates |> summarize(violent_iqr_2020 = IQR(violent_rate_2020))
+```
+The 90th percentile results support my earlier story. Ocean City and Baltimore top the list, along with several small towns like Cambridge and Princess Anne, which helps the idea that small population and tourist traffic can raise crime rates. The IQR of 42 shows most Maryland cities are close together, making these 14 cities are clear outliers. This adds a useful detail to the story: violent crime in 2020 was concentrated in a small number of places, while the broader statewide trend was mainly a decline in property crime.
+
