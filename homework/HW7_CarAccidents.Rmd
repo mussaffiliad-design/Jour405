@@ -32,7 +32,9 @@ library(lubridate)  # For working with dates
 Load the accident data from our CSV file at https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/daily_accidents.csv into a dataframe called `accidents`:
 
 ```{r load-data}
+accidents <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/daily_accidents.csv")
 
+head(accidents)
 ```
 
 ## Data Exploration
@@ -68,7 +70,7 @@ ggplot(accidents, aes(x = date, y = total)) +
 ### Task 2 (3 points)
 Looking at the time series visualization above, identify at least two noticeable patterns or anomalies. What questions would you want to investigate further based on this initial view of the data? How might these visual patterns translate into potential story angles?
 
-ANSWER HERE
+Prince George's County accidents steadily rose from 2017 to 2019 with a sharp drop in 2020, due to the pandemic. It rebounded to its highest in 2021. I am curious why crashes increased during a time when people were working from home, and traffic was generally lighter. A possible story angle is whether reckless driving has become a lasting post-pandemic problem in the county.
 
 The daily data is quite noisy, so let's also look at weekly patterns:
 
@@ -107,7 +109,7 @@ ggplot(accidents, aes(x = day_of_week, y = total)) +
 ### Task 3 (2 points)
 Based on the day-of-week analysis, which day(s) have the highest and lowest average accidents? Why might these patterns exist?
 
-ANSWER HERE
+Fridays have the most accidents, averaging 28 a day, followed closely by Saturdays at 27.7. Wednesdays and Mondays have the fewest, at 22.9 each, though Tuesday and Thursday are only slightly higher. The weekend spike may be because of more social and leisure driving, such as Friday evening commutes mixed with people heading out for the weekend, along with more late-night driving and possibly more impaired driving.
 
 ## Calculating Z-Scores
 
@@ -119,9 +121,9 @@ Now, using the accidents dataframe, add three columns using `mutate()`: mean_acc
 # Calculate z-scores for total accidents
 accidents <- accidents |>
   mutate(
-    mean_accidents = REPLACE_ME,
-    sd_accidents = REPLACE_ME,
-    z_score = (REPLACE_ME - REPLACE_ME) / REPLACE_ME
+    mean_accidents = mean(total),
+    sd_accidents = sd(total),
+    z_score = (total - mean_accidents) / sd_accidents
   )
 
 # Display the data with z-scores
@@ -156,7 +158,7 @@ unusual_days |>
 ### Task 5 (3 points)
 Choose one of the top 10 unusual days and research what might have happened on that date. Look for weather events, holidays, major incidents, or other factors that could explain the unusual number of accidents. Briefly describe your findings and how you would incorporate this context into a story.
 
-ANSWER HERE
+Prince George's County recorded 58 accidents on Oct. 29, 2021. That is more than double the daily average and the most in the dataset. There was a storm that day that brought heavy rain and tidal flooding to the DMV area, which likely made roads dangerous during Friday traffic. In a story, I'd use this as an example of how severe weather affects road safety, and I'd confirm with police crash records how many of the accidents were weather-related.
 
 Let's visualize these unusual days:
 
@@ -186,9 +188,9 @@ Let's calculate z-scores that account for day of week patterns based on the same
 accidents <- accidents |>
   group_by(day_of_week) |>
   mutate(
-    dow_mean = REPLACE_ME,
-    dow_sd = REPLACE_ME,
-    dow_z_score = (REPLACE_ME - REPLACE_ME) / REPLACE_ME
+    dow_mean = mean(total),
+    dow_sd = sd(total),
+    dow_z_score = (total - dow_mean) / dow_sd
   ) |>
   ungroup()
 
@@ -207,7 +209,7 @@ unusual_dow |>
 ### Task 7 (3 points)
 Compare the days that have extreme z-scores overall versus those with extreme day-of-week z-scores. How do these lists differ? What journalistic insights can you draw from comparing these two different approaches to measuring "unusual" days?
 
-ANSWER HERE
+The z-scores data flags Fridays and Saturdays, which naturally have more accidents. The day-of-week z-scores reveal random weekdays like Wednesday, May 5, 2021, and Tuesday, Dec. 10, 2024, which each had 45 accidents. A few days, such as Oct. 29, 2021, stand out on both lists, making them the strongest outliers. The journalistic lesson is that random depends on what you compare to because even a "random" Wednesday can be a real story. Using the day-of-week comparison helps reporters avoid chasing patterns that are just routine weekend traffic.
 
 Let's see how many unusual days we have for each day of the week:
 
@@ -286,7 +288,7 @@ unusual_monthly |>
 ### Task 8 (2 points)
 Based on the monthly pattern analysis, which months have the highest and lowest average accidents? Develop a hypothesis about why these seasonal patterns exist.
 
-ANSWER HERE
+October had the highest average of 27.5 accidents per day, and January had the lowest at 22.2. I think this is because fall weather is inconsistent and there is heavier traffic, as people return to school and work. January is filled with holidays and snow, so people are less on the roads 
 
 ## Identifying Extreme Outliers
 
@@ -311,9 +313,15 @@ if(nrow(extreme_outliers) > 0) {
 ### Task 9 (2 points)
 For the extreme outliers identified (z-scores beyond ±3), what do they have in common?
 
-ANSWER HERE
+All 10 of the high days fell on a Friday or Saturday, the days that already have the most accidents. Half of the 12 extreme outliers occurred in 2021, between April and November, matching the post-pandemic rise in crashes. The two unusually low days, Nov. 29, 2021, with 1 accident and March 23, 2025, with 3, are so far below normal that they may reflect missing data rather than safe roads.
 
 ## Your Best Story Pitch
 
 ### Task 10 (5 points)
 Based on all the analyses performed, craft your best story pitch, including a headline and lede. Be sure to include what kinds of sources/people you'd talk to for the story.
+
+Headline: Prince George's roads never recovered from the pandemic
+
+Lede: When COVID-19 emptied Prince George's County roads in the spring of 2020, daily car accidents dropped sharply. But by 2021, the county averaged more than 27 accidents a day, the highest level in eight years of data, and it has stayed above pre-pandemic levels ever since.
+
+Next steps: I would interview Prince George's County Police and the Maryland State Highway Administration for crash details
