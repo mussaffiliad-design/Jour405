@@ -9,6 +9,11 @@ In this assignment, you'll build on your z-score skills to answer probability qu
 Load the tidyverse and the White House salaries data from https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/white_house_salaries_2025.csv into a dataframe called `wh_salaries`
 
 ```{r}
+library(tidyverse)
+
+wh_salaries <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/white_house_salaries_2025.csv")
+
+head(wh_salaries)
 ```
 
 ### Task 2: Filter and summarize (2 points)
@@ -18,7 +23,15 @@ You may remember from HW3 that some White House staffers have a salary of $0. Le
 ```{r}
 wh_paid <- wh_salaries |>
   filter(SALARY > 0)
+wh_paid <- wh_salaries |>
+  filter(SALARY > 0)
 
+wh_paid |>
+  summarize(
+    mean_salary = mean(SALARY),
+    median_salary = median(SALARY),
+    sd_salary = sd(SALARY)
+  )
 
 
 ```
@@ -26,11 +39,16 @@ wh_paid <- wh_salaries |>
 Now create a histogram of the paid salaries with a vertical line for the mean and two more for ±1 standard deviation, similar to what you did in HW6 with Spotify data.
 
 ```{r}
+ggplot(wh_paid, aes(x = SALARY)) +
+  geom_histogram() +
+  geom_vline(xintercept = mean(wh_paid$SALARY), color = "red") +
+  geom_vline(xintercept = mean(wh_paid$SALARY) - sd(wh_paid$SALARY), color = "blue") +
+  geom_vline(xintercept = mean(wh_paid$SALARY) + sd(wh_paid$SALARY), color = "blue")
 ```
 
 **Describe the shape of the distribution. Is it roughly normal? Skewed? Where do most salaries cluster?**
 
-ANSWER HERE
+The distribution is a right-skewed one with clusters at the lower end. The biggest group is between $60,000 and $80,000 and a tail that stretches toward higher salaries. The mean is higher than the median, confirming the skew. There is also a separate bump where 33 staffers earned the exact same salary. 
 
 ### Task 3: The Empirical Rule (3 points)
 
@@ -64,7 +82,7 @@ empirical
 
 **How closely does the data follow the empirical rule? What does any deviation tell you about the distribution?**
 
-ANSWER HERE
+The data follows the empirical rule but doesn't perfectly match beacuse 65.9% of he salaries fall within 1 standard deviation. This lopsidedness confirms that the distribution is right-skewed rather than normal, so the empirical rule is only a guide for this data.
 
 ### Task 4: From z-scores to probability with pnorm() (4 points)
 
@@ -102,7 +120,7 @@ actual_prob
 
 **Write a sentence describing this probability in plain English. How does the normal approximation (prob_less) compare to the actual percentage?**
 
-ANSWER HERE
+About 17% of White House employees would be expected to earn more than $150,000 under a normal distribution, but the actual figure is higher so the normal approximation runs a low because salaries are right-skewed.  
 
 ### Task 5: Probability between two values (3 points)
 
@@ -112,21 +130,21 @@ You'll need to calculate z-scores for those two figures, use `pnorm()` for each,
 
 ```{r}
 
-z_lower <- (REPLACE_ME - mean_sal) / sd_sal
-z_upper <- (REPLACE_ME - mean_sal) / sd_sal
+z_lower <- (80000 - mean_sal) / sd_sal
+z_upper <- (120000 - mean_sal) / sd_sal
 
 prob_between <- pnorm(z_upper) - pnorm(z_lower)
 prob_between
 
 # Verify with actual data
-actual_between <- sum(wh_paid$SALARY >= REPLACE_ME & wh_paid$SALARY <= REPLACE_ME) / total_n
+actual_between <- sum(wh_paid$SALARY >= 80000 & wh_paid$SALARY <= 120000) / total_n
 actual_between
 
 ```
 
 **Interpret this result. What does this "middle range" tell us about the White House salary structure?**
 
-ANSWER HERE
+The normal curve predicts 37% of staffers earn between $80,000 and $120,000, however, only about 33% actually do. The salaries aren't spread evenly around the average, as lots of staffers are bunched at lower salaries under $80,000, and a group of senior aides earns around $195,000. The White House most likely has more junior staff, fewer people in the middle, and a small group at the top.
 
 ### Task 6: Expected vs. observed (3 points)
 
@@ -157,8 +175,7 @@ bins |> select(category, expected_count, observed_count, difference)
 ```
 
 **Where does reality differ most from what the normal distribution predicts? What might explain those differences?**
-
-ANSWER HERE
+The biggest difference is in the $60k–$90k range. 151 staffers earn that much, almost twice the 78 the normal curve predicts. The normal curve also expects about 40 people below $60k, but there are only 2. That's probably because the White House has a pay floor, so almost no one earns below about $60,000, and lots of junior staffers are bunched just above it. There are also more high earners above $150k than expected, because of the group of senior aides paid around $195,000. Overall, the salaries follow set pay levels instead of a smooth bell curve.
 
 ### Task 7: Story pitch (4 points)
 
@@ -166,8 +183,11 @@ Based on your probability analysis, write a headline and lede for a story about 
 
 Then write 2-3 sentences describing how you would use probability thinking to advance this story — what could you compare these probabilities to, and what additional analysis would help?
 
-ANSWER HERE
+Headline: White House pay splits between junior staff and top aides
 
+Lede: More than a third of paid White House staffers aren't high-paid officials. Instead, their salaries are between $60,000 and $90,000, while a small group of senior aides sits at the top making exactly $195,200.
+
+Next steps:: I would compare these percentages with White House salary data from past administrations, which is released every year, to see if the number of high earners has grown or shrunk.
 ### Task 8: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
