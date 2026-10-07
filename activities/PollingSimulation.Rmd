@@ -9,6 +9,7 @@ Your goal is to see firsthand how sample size affects the accuracy of estimates,
 ### Task 1: Load the tidyverse
 
 ```{r}
+library(tidyverse)
 ```
 
 ### Task 2: Load the CES data
@@ -18,6 +19,7 @@ Load the CES 2024 religion dataset from this URL and save it to a dataframe call
 `https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/ces_2024_religion.csv`
 
 ```{r}
+ces <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/ces_2024_religion.csv")
 ```
 
 ### Task 3: Calculate the population proportion
@@ -40,31 +42,35 @@ That population proportion is the "true" population value that any poll is tryin
 Use `set.seed(42)` and then sample 50 rows from `ces`. Save it as `sample_50`. Calculate the proportion of unaffiliated respondents in your sample.
 
 ```{r}
-
+set.seed(42)
+sample_50 <- ces |> sample_n(50)
+mean(sample_50$unaffiliated)
 ```
 
 How close is your sample estimate to the original proportion? Is it surprising?
 
-ANSWER HERE
+My sample size is 32 which is close to 36. It is not fully accurate but it is an accurate represenation for a sample size of 50 people. 
 
 ### Task 5: Take a single larger sample
 
 Now sample 500 rows. Set a different seed value, grab the sample and save it as `sample_500`. Calculate the proportion of unaffiliated respondents in this sample.
 
 ```{r}
-
+set.seed(405)
+sample_500 <- ces |> sample_n(500)
+mean(sample_500$unaffiliated)
 ```
 
 How did the estimate change compared to the sample of 50? What does this suggest about sample size?
 
-ANSWER HERE
+In the 50 person sample, I got 32 and in the 500 sample size I got 36. This shows that the higher the sample size number, the more accurate it gets. 36 is more accurate to 35.9 than 32.
 
 ### Task 6: Simulate many polls
 
 A single sample can get lucky or unlucky. To understand how polling actually works, we need to see the *distribution* of estimates across many samples. The code below draws 1,000 samples of size 50, calculates the proportion of unaffiliated respondents in each, and stores the results.
 
 ```{r}
-set.seed(REPLACE_ME)
+set.seed(405)
 
 simulate_polls <- function(data, sample_size, n_simulations = 1000) {
   proportions <- replicate(n_simulations, {
@@ -104,16 +110,18 @@ ggplot(simulations_all, aes(x = proportion)) +
 
 **What shape do both histograms have?** Describe them in plain language. Does it surprise you that this shape emerges from a variable that is simply TRUE or FALSE for each respondent?
 
-ANSWER HERE
+They are both normal distributions but the 500 one seems more accurate because it is tighter. When it is spread out, there can be outliers. 
 
 **Compare the two histograms.** What is the most visible difference between the n=50 and n=500 distributions? What does that difference tell you about what happens when a poll uses a larger sample?
 
-ANSWER HERE
+The most visible difference is the height and proximity of the numbers, with 500 being closer together. This shows that when you use a higher sample size, you are more likely to get rid of outliers and have an more accurate representation of the numbers. 
 
 **Both distributions are centered near the red line.** What does it mean that 1,000 different random samples — each one drawn independently — tend to cluster around the same value? What would it mean for journalism if that *weren't* the case?
 
-ANSWER HERE
+When 1,000 random samples cluster around the true value, it means random sampling is unbiased. Each poll misses a little, sometimes high and sometimes low, but on average they hit the real number. If they didn't center on the true value, the polling method would be biased. Polls would consistently mislead in one direction, and a bigger sample wouldn't fix that. Journalists would end up reporting wrong numbers with confidence.
 
 **A reporter tells you their story is based on a poll of 50 people.** Based on what you've seen in the simulation, what questions would you want to ask before trusting that number? You don't need to use any technical terms — just describe what you observed.
+
+I's want to know how much this result could swing if they'd asked a different 50 people. I'd also ask how those 50 people were chosen, since a non-random group could be off in one direction. I'd also ask whether a larger poll found something similar.
 
 When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
