@@ -5,21 +5,51 @@ title: "HW8_MandMs"
 In this assignment, you'll be picking up where you left off with the M&Ms activity. You'll load the data and perform some basic statistical analysis. Follow the steps below to complete the assignment.
 
 ### Task 1: Load the tidyverse
+```{r}
+library(tidyverse)
+```
 
 
 ### Task 2: Load the M&Ms dataset from https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv
 
+```{r}
+mandms <- read.csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv")
+head(mandms)
+```
 
 ### Task 3: Sample 5 rows of data from the dataset
+```{r}
+library(tidyverse)
+mandms |> sample_n(5)
+```
 
 
 ### Task 4: Calculate the mean age and standard deviation of the sample, using either the red or black number of M&Ms
+```{r}
+set.seed(42)
+my_sample <- mandms[sample(nrow(mandms), 5), ]
+
+mean(my_sample$red)
+sd(my_sample$red)
+```
 
 
 ### Task 5: Calculate the mean age and standard deviation of the population, using the same measure as in Task 4
+```{r}
+mean(mandms$red)
+sd(mandms$red)
+```
 
 
 ### Task 6: Compare the sample and population statistics
+```{r}
+comparison <- data.frame(
+  group = c("Sample", "Population"),
+  mean  = c(mean(my_sample$red), mean(mandms$red)),
+  sd    = c(sd(my_sample$red), sd(mandms$red))
+)
+comparison
+```
 
 Compare the two sets of means and standard deviations. Are they similar?
 
@@ -27,5 +57,6 @@ Compare the two sets of means and standard deviations. Are they similar?
 
 Write a few sentences about what you found in the data. What does this tell you about the M&Ms dataset and about the act of random sampling?
 
+The red and black M&Ms are about an even split across the 100 bags, averaging about 73 each, but the count per bag varies a lot. My five-bag sample’s mean at 79.6 was close to the population’s 72.98, but its standard deviation was smaller than 16.46, so it missed the extreme bags. Random sampling can estimate the average reasonably well even with a few bags, but a small sample is less reliable at capturing variation. A larger sample would get closer to the true values.
 
 When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
