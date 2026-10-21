@@ -1,5 +1,6 @@
 ---
 title: "Confidence Intervals with Sleep Data"
+"Liad Mussaffi"
 ---
 
 ```{r setup, include=FALSE}
@@ -41,7 +42,7 @@ sleep_stats
 
 **Answer this question:** Based on these numbers alone, what would you tell the health reporter? Why might it be risky to report the average as the definitive answer for all students?
 
-ANSWER HERE
+Students averaged 7.7 hours (SD 1.4), above the CDC’s 7. But it’s only 37 students from one class on one night, so a different sample could give a different average.
 
 ### Task 3: Calculate the standard error
 
@@ -58,7 +59,7 @@ sleep_stats
 
 **Answer this question:** The standard error is much smaller than the standard deviation. Why? What does each one measure?
 
-ANSWER HERE
+SD measures how much individual students vary; SE measures how much the average would vary across samples. SE is smaller because averaging cancels out extremes.
 
 ### Task 4: Calculate a 95% confidence interval
 
@@ -79,7 +80,7 @@ sleep_stats |>
 
 **Answer this question:** Write one sentence explaining what this confidence interval means in plain English that a reader would understand.
 
-ANSWER HERE
+We’re 95% confident the average student sleeps between 7.3 and 8.2 hours.
 
 ### Task 5: Visualize the distribution with the confidence interval
 
@@ -112,7 +113,7 @@ ggplot(sleep_data, aes(x = hours)) +
 
 **Answer this question:** Look at the chart. Notice that the confidence interval is much narrower than the spread of individual data points. Why? What's the difference between the variation in individual sleep hours and the uncertainty about the average?
 
-ANSWER HERE
+ndividuals vary a lot (5–12 hours), but the average is much more stable, so its interval is narrow. Individual variation doesn’t shrink with more data; uncertainty about the average does.
 
 ### Task 6: The CDC question — is 7 hours within the interval?
 
@@ -134,7 +135,7 @@ sleep_stats |>
   b) "Students May Not Be Getting Enough Sleep, Survey Suggests"
   c) "Survey: Students Getting Recommended Amount of Sleep"
 
-ANSWER HERE
+A is justified because the whole interval (7.28–8.18) is above 7. B understates the finding, and C overstates it since about 1 in 5 students slept less than 7.
 
 ### Task 7: What about a bigger sample?
 
@@ -167,7 +168,7 @@ comparison
 
 **Answer this question:** How did the margin of error change? What does this tell you about the relationship between sample size and certainty?
 
-ANSWER HERE
+The margin of error fell from 0.45 to 0.27. Bigger samples mean more certainty, but with diminishing returns.
 
 ### Task 8: Journalistic interpretation
 
@@ -175,4 +176,5 @@ You now have all the statistics you need. Based on what you've calculated:
 
 Write a headline and a one-paragraph lede for a campus news story about student sleep habits. Your text should accurately reflect the confidence interval — don't overstate or understate the findings.
 
-ANSWER HERE
+Headline: Students average nearly 8 hours of sleep, survey finds
+Lede: Students in a journalism class averaged 7.7 hours of sleep, above the CDC’s 7-hour minimum, with the true average likely between 7.3 and 8.2 hours. Still, about one in five slept less than 7, and the survey covered just one class and one night.
