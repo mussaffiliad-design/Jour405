@@ -58,4 +58,4 @@ weekly_wmata |>
 
 **Answer this question:** Describe the trend you see. Is ridership going up, down, or staying flat? What are the big dips, and what might explain them? What would you want to know before writing a story about Metro weekly ridership trends?
 
-ANSWER HERE
+Ridership is flat to slightly rising, mostly 4.8–5.8 million riders a week, with spring peaks likely from cherry blossom season. The big dips are holiday weeks (Christmas, New Year’s, Thanksgiving) and a late January 2026 week that may have been a winter storm. Before writing a story, I’d want to know how WMATA counts riders, whether bus and rail differ, and how this compares to pre-pandemic levels.
