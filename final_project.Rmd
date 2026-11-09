@@ -1,0 +1,95 @@
+---
+title: "Is vision zero making Montgomery County safer for people walking and biking?"
+
+---
+
+## The idea
+
+**Question:** Are crashes involving pedestrians and cyclists in Montgomery County getting more frequent or more severe, even with vision zero, and where are they happening?
+
+**Hypothesis:** Despite the county's Vision Zero pledge (adopted in 2016, with a goal of zero traffic deaths and serious injuries by the end of 2030), crashes that seriously injure or kill pedestrians and cyclists have not significantly declined since 2015. Those crashes are concentrated on a small number of state-controlled roads (like Georgia Ave, New Hampshire Ave, Veirs Mill Rd and University Blvd), which the county doesn't control.
+
+**Possible bump/twist:** Since Jan. 1, 2024, Maryland's crash reporting system has coded electric and non-electric scooter riders and electric cyclists as their own non-motorist types. I am curious to if those crashes involve e-scooters and e-bikes and whether they look different from other crashes.
+
+**Why it's newsworthy:** Montgomery County has spent years and a lot of money on vision zero, but it's still unclear whether it's actually making streets safer for people walking and biking. The county says serious and fatal crashes are down compared to its 2012-2016 baseline, while news coverage (The Banner, WJLA) says traffic deaths have barely changed since 2018.
+
+## The data
+
+My main sources are three linked datasets from dataMontgomery
+
+Crash reporting, non-motorists: "https://data.montgomerycountymd.gov/Public-Safety/Crash-Reporting-Non-Motorists-Data/n7fk-dce5/about_data" 
+Crash reporting: "https://data.montgomerycountymd.gov/Public-Safety/Crash-Reporting-Incidents-Data/bhju-22kf/about_data"
+Crash reporting, drivers: "https://data.montgomerycountymd.gov/Public-Safety/Crash-Reporting-Drivers-Data/mmzv-x632/about_data"
+
+Documentation and related sources:
+
+- Data.gov catalog entry for the non-motorist data: "https://catalog.data.gov/dataset/crash-reporting-non-motorists-data"
+- Data.gov catalog entry for the drivers data: https://catalog.data.gov/dataset/crash-reporting-drivers-data
+- Montgomery County vision zero page and annual reports "https://montgomerycountymd.gov/visionzero"
+- Vision zero monthly crash data update, March 2026 (explains that scooters became their own category in 2024): "https://assets.montgomerycountymd.gov/files/2026-04/Vision_Zero_Crash_Data.pdf"
+
+
+## Load libraries
+
+```{r setup}
+library(tidyverse)
+library(janitor)
+library(lubridate)
+```
+
+## Loading the data from the web
+
+```{r load-data}
+nonmotorists_url <- "https://data.montgomerycountymd.gov/api/views/n7fk-dce5/rows.csv?accessType=DOWNLOAD"
+incidents_url    <- "https://data.montgomerycountymd.gov/api/views/bhju-22kf/rows.csv?accessType=DOWNLOAD"
+
+nonmotorists <- read_csv(nonmotorists_url, guess_max = 10000) |> clean_names()
+incidents    <- read_csv(incidents_url, guess_max = 10000) |> clean_names()
+```
+
+
+## First look at the non-motorist data
+
+```{r glimpse-nonmotorists}
+glimpse(nonmotorists)
+```
+
+```{r dims}
+nrow(nonmotorists)
+n_distinct(nonmotorists$report_number)
+```
+
+
+## Fix the dates and figure out the time period
+
+The date/time column comes in as text. I parse it with lubridate. I list a couple of formats because the downloaded CSV uses a format like "11/04/2026 03:38:00 PM" while the API version uses ISO dates.
+
+```{r dates}
+nonmotorists <- nonmotorists |>
+  mutate(
+    crash_datetime = parse_date_time(crash_date_time, orders = c("mdy IMS p", "mdy HMS", "ymd HMS", "ymd_HMS")),
+    crash_date = as_date(crash_datetime),
+    year = year(crash_date),
+    month = floor_date(crash_date, "month")
+  )
+
+# Did any dates fail to parse?
+nonmotorists |> filter(is.na(crash_datetime)) |> nrow()
+
+# What time period does the data cover?
+range(nonmotorists$crash_date, na.rm = TRUE)
+```
+
+```{r rows-by-year}
+nonmotorists |>
+  count(year) |>
+  arrange(year)
+```
+
+
+## Questions I have / need help with
+
+1. Does this data include crashes reported by Maryland State Police? If not, how much does that leave out on state roads, and should I use the statewide Maryland crash data instead for that part of the analysis?
+2. Should I excule private property and parking lots?
+3. Should my baseline be 2015-2016 (before vision zero) or the county's own 2012-2016 average? 
+
