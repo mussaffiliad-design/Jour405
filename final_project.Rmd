@@ -2,6 +2,15 @@
 title: "Is vision zero making Montgomery County safer for people walking and biking?"
 
 ---
+#Tests I can use
+
+**Correlation**  I’ll look at road-level total crashes vs. serious crashes with a labeled scatterplot. If I join the drivers table, I can also compare speed limit with serious-crash share, since speed might be what really explains the state road pattern.
+
+**Trend analysis** There's almost no before period to measure since the data starts in 2015 and Vision Zero was adopted in 2016. Instead, I can calculate rates using county population figures. I can then use those rather than raw figures.
+
+**Z-scores** I will flag unusual months and roads with z-scores above 2, and count crashes by day of week. I’ll check that the data is roughly normal first, because road counts will probably be skewed.
+
+
 
 ## The idea
 
