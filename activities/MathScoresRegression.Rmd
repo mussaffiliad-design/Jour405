@@ -32,7 +32,7 @@ schools |> arrange(`FARMS Pct`) |> head(10)
 
 Look at the distribution of FARMS percentages. Do any values look unusual or suspicious? What might it mean if a school has a FARMS percentage of exactly 100? Write two or three sentences describing what you see and whether anything concerns you.
 
-ANSWER HERE
+Eight schools report a FARMS rate of 100%, even though no other school is above about 54%. A 100 can mean the school gives every student free meals through a program, not that every student is poor, so these values could skew the analysis.
 
 
 ### Task 2: Create a Scatterplot and Describe the Results
@@ -50,7 +50,7 @@ schools |>
 
 Describe what you see. Is there a clear trend? Does the regression line look like it represents the data well, or does it seem to be pulled in an odd direction? Connect what you observed in Task 1 to what you see here.
 
-ANSWER HERE
+There is not a clear trend. The regression line is slightly upward, which is not what the board claimed. The eight 100% schools from task 1 form a column at the far right edge and pull the line toward themselves.
 
 
 ### Task 3: Run the Regression Model
@@ -68,7 +68,7 @@ The **p-value** tells you whether the relationship is statistically significant.
 
 Report all three values and describe what they tell you. Does this model support the school board member's claim? Is this even a model worth using?
 
-ANSWER HERE
+The FARMS coeffcient is .12 which is not significant. The adjusted R-squared of 0.025 means only 2.5% of the variation in math scores is explained. This model is not worth using. 
 
 
 ### Task 4: What's Driving the Problem? Filter and Rerun.
@@ -98,7 +98,7 @@ cat("  Adjusted R-squared:", summary(model_filtered)$adj.r.squared, "\n")
 
 How did removing those schools change the model? Did the coefficient change direction? Did the p-value or R-squared improve meaningfully? What does this tell you about the influence of suspicious data values on a regression model?
 
-ANSWER HERE
+It did not flip the coefficient. It stayed positive and grew to .40, meaning the 100% schools were flattening the line. The p-value fell from 0.12 to 0.043, and the R-squared rose from 2.5% to 6.5%
 
 
 ### Task 5: Even the Better Model Has Problems
@@ -132,8 +132,7 @@ head(schools_filtered |> select(1, `FARMS Pct`, `% Met or Exceeded Math Expectat
 
 What are the largest residuals? Given the model's weak R-squared, how much confidence would you have in labeling these schools as over- or under-performers? Why?
 
-ANSWER HERE
-
+The biggest misses are Gulph Elementary (36.7 points below its prediction), Hereford (32.5 below) and Woodland (28.4 above). Since FARMS explains only about 6.5% of the variation in math scores, I wouldn’t use or trust these residuals to label any school an over- or under-performer.
 
 ### Task 6: Write the Story Pitch
 
@@ -141,4 +140,4 @@ You've now run two models, examined the data quality and seen that even a cleane
 
 Write a short story pitch (3-5 sentences) that addresses the following: Does the data support or contradict the claim? What data quality issues did you find? What would you need - different data, a different model, additional reporting - before you could responsibly publish a story about this claim? Who would you call first?
 
-ANSWER HERE
+State data doesn’t and the board member’s claim do not support eachother. Schools with more low-income students actually scored slightly higher in math, and poverty explains less than 7% of the difference. Eight schools report 100% FARMS, which likely reflects a universal free-meals program, so there would need better poverty data and a model that adds factors like district and spending before publishing. I’d call the Pennsylvania Department of Education first to find out what those 100% figures mean.
